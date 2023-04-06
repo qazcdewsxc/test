@@ -17,7 +17,7 @@ class elementsTest1 extends Model
     {
         return $this->belongsToMany(Permission::class, 'permission_for_elements', 'element_id', 'permission_id');
     }
-    public function subElem()
+    public function childs()
     {
         return $this->HasMany(elementsTest1::class, 'parentId');
     }
