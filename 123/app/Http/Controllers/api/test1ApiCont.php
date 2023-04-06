@@ -25,7 +25,6 @@ class test1ApiCont extends Controller
      */
     public function allElem()
     {
-        Auth::user()->revokePermissionTo('mAll');
         $permissions = Auth::user()->getAllPermissions();
         global $elementsWithPerm;
         foreach($permissions as $permission)
