@@ -26,7 +26,7 @@ class test1ApiCont extends Controller
     public function allElem()
     {
         Auth::user()->revokePermissionTo('mAll');
-        $permissions = Auth::user()->getDirectPermissions();
+        $permissions = Auth::user()->getAllPermissions();
         global $elementsWithPerm;
         foreach($permissions as $permission)
         {
@@ -48,7 +48,7 @@ class test1ApiCont extends Controller
     public function storeElem(test1UpReq $req)
     {
         $elem = elementsTest1::create(['name' => $req->input('name'), 'parentId' => $req->input('parentId')]);
-        $permissions = Auth::user()->getDirectPermissions();
+        $permissions = Auth::user()->getAllPermissions();
         foreach($permissions as $permission)
         {
             permissionForElement::create(['element_id' => $elem->id, 'permission_id' => $permission->id]);
@@ -60,7 +60,7 @@ class test1ApiCont extends Controller
      */
     public function table($id)
     {
-        $permissions = Auth::user()->getDirectPermissions();
+        $permissions = Auth::user()->getAllPermissions();
         foreach($permissions as $permission)
         {
             if(!(elementsTest1::where('id', $id)->whereHas('permForElem', function($q) use($permission){
@@ -90,13 +90,13 @@ class test1ApiCont extends Controller
      */
     public function updateElem($id, test1UpReq $req)
     {
-        $permissions = Auth::user()->getDirectPermissions();
+        $permissions = Auth::user()->getAllPermissions();
         foreach($permissions as $permission)
         {
             if(!(elementsTest1::where('id', $id)->whereHas('permForElem', function($q) use($permission){
                 $q->where('permission_id', $permission->id);
             })->get()->isEmpty()))
-            {
+           {
                 elementsTest1::where('id', $id)->update(['name' => $req->input('name'), 'parentId' => $req->input('parentId')]);
                 return(elementsTest1::where('id', $id)->first());
             }
@@ -116,7 +116,7 @@ class test1ApiCont extends Controller
      */
     public function destroyElem($id)
     {
-        $permissions = Auth::user()->getDirectPermissions();
+        $permissions = Auth::user()->getAllPermissions();
         foreach($permissions as $permission)
         {
             if(!(elementsTest1::where('id', $id)->whereHas('permForElem', function($q) use($permission){
