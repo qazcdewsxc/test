@@ -122,7 +122,7 @@ class test1ApiCont extends Controller
             }
             
         }
-        return('Fail'=>'No access');
+        return(['Fail'=>'No access']);
     }
     /**
      * Remove the specified resource from storage.
@@ -138,11 +138,11 @@ class test1ApiCont extends Controller
             {
                 permissionForElement::where('element_id', $id)->delete();
                 elementsTest1::where('id', $id)->delete();
-                return('Object deleted successfully');
+                return(['success' => 'Object deleted successfully']);
             }
             
         }
-        return('Fail'=>'No access');
+        return(['Fail'=>'No access']);
     }
     /**
      * Login
@@ -157,8 +157,7 @@ class test1ApiCont extends Controller
         {
             $token = $user->createToken($user->name)->plainTextToken;
             $user->assignRole('user');
-            return[
-                'Token'=>$token];
+            return['Token'=>$token];
         }
     }
     /**
