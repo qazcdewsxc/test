@@ -96,7 +96,7 @@ class test1ApiCont extends Controller
             }
             
         }
-        return('No access');
+        return(['Fail' => 'No access']);
     }
     /**
      * Update the specified resource in storage.
@@ -122,7 +122,7 @@ class test1ApiCont extends Controller
             }
             
         }
-        return('fail');
+        return('Fail'=>'No access');
     }
     /**
      * Remove the specified resource from storage.
@@ -142,7 +142,7 @@ class test1ApiCont extends Controller
             }
             
         }
-        return('fail');
+        return('Fail'=>'No access');
     }
     /**
      * Login
