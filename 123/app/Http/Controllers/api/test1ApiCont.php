@@ -26,12 +26,26 @@ class test1ApiCont extends Controller
     public function allElem()
     {
         $permissions = Auth::user()->getAllPermissions();
-        global $elementsWithPerm;
+        $elementsWithPerm;
         foreach($permissions as $permission)
         {
             $items = elementsTest1::whereHas('mainElem', function($q) use($permission){
                 $q->where('permission_id', $permission->id);
             })->with('childs')->get();
+            foreach($items as $item)
+            {
+                $elementsWithPerm[] = $item;
+            }
+            $items = elementsTest1::whereHas('permForElem', function($q) use($permission){
+                $q->where('permission_id', $permission->id);
+            })->whereHas('childs')->with('childs')->get();
+            foreach($items as $item)
+            {
+                $elementsWithPerm[] = $item;
+            }
+            $items = elementsTest1::whereHas('permForElem', function($q) use($permission){
+                $q->where('permission_id', $permission->id);
+            })->where('parentId', NULL)->with('childs')->get();
             foreach($items as $item)
             {
                 $elementsWithPerm[] = $item;
@@ -143,7 +157,8 @@ class test1ApiCont extends Controller
         {
             $token = $user->createToken($user->name)->plainTextToken;
             $user->assignRole('user');
-            return($token);
+            return[
+                'Token'=>$token];
         }
     }
     /**
