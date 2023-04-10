@@ -45,7 +45,7 @@ class test1ApiCont extends Controller
             }
             $items = elementsTest1::whereHas('permForElem', function($q) use($permission){
                 $q->where('permission_id', $permission->id);
-            })->where('parentId', NULL)->with('childs')->get();
+            })->where('parentId', NULL)->whereDoesntHave('childs')->get();
             foreach($items as $item)
             {
                 $elementsWithPerm[] = $item;
